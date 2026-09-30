@@ -1,4 +1,4 @@
-# Home Server: A Laptop Turned Local-AI Box
+# Home Server
 
 An old Acer Nitro 5 gaming laptop repurposed as an always-on home server: network file storage, a live monitoring dashboard on its own screen, and a GPU-accelerated local LLM stack with custom tools that let the model safely read and write files.
 
