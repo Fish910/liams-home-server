@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" font-family="Helvetica, Arial, sans-serif" font-size="14">
+<rect width="900" height="520" fill="#ffffff"/>
+<g stroke="#334155" stroke-width="1.5">
+<rect x="30" y="40" width="190" height="60" rx="8" fill="#e0f2fe"/>
+<rect x="30" y="130" width="190" height="60" rx="8" fill="#e0f2fe"/>
+<rect x="30" y="220" width="190" height="60" rx="8" fill="#e0f2fe"/>
+<rect x="290" y="20" width="580" height="480" rx="12" fill="#f8fafc" stroke-dasharray="6 4"/>
+<rect x="320" y="70" width="160" height="56" rx="8" fill="#dcfce7"/>
+<rect x="320" y="150" width="160" height="56" rx="8" fill="#dcfce7"/>
+<rect x="320" y="230" width="160" height="56" rx="8" fill="#dcfce7"/>
+<rect x="320" y="310" width="160" height="56" rx="8" fill="#dcfce7"/>
+<rect x="520" y="70" width="170" height="56" rx="8" fill="#fef3c7"/>
+<rect x="520" y="150" width="170" height="56" rx="8" fill="#fef3c7"/>
+<rect x="720" y="150" width="130" height="56" rx="8" fill="#fde2e2"/>
+<rect x="520" y="400" width="330" height="70" rx="8" fill="#ede9fe"/>
+<rect x="320" y="400" width="170" height="70" rx="8" fill="#ede9fe"/>
+</g>
+<g fill="#0f172a" text-anchor="middle">
+<text x="125" y="75">iPhone</text>
+<text x="125" y="165">Windows laptop</text>
+<text x="125" y="255">Server screen (kiosk)</text>
+<text x="580" y="42" font-weight="bold">liams-server (Ubuntu, Docker)</text>
+<text x="400" y="103">Homepage :3000</text>
+<text x="400" y="183">Open WebUI :3001</text>
+<text x="400" y="263">Ollama :11434</text>
+<text x="400" y="343">TS status API :5005</text>
+<text x="605" y="103">Glances :61208 (host)</text>
+<text x="605" y="183">Samba (host)</text>
+<text x="785" y="183">Tailscale</text>
+<text x="685" y="430">/mnt/storage (Seagate ext4)</text>
+<text x="685" y="452" font-size="12">sandbox/ = only writable path for AI</text>
+<text x="405" y="430">GTX 1650 (4 GB)</text>
+<text x="405" y="452" font-size="12">GPU inference</text>
+</g>
+<g stroke="#64748b" stroke-width="1.5" fill="none">
+<path d="M220 70 H290"/><path d="M220 160 H290"/><path d="M220 250 H290"/>
+<path d="M480 98 H520"/><path d="M400 206 V230"/><path d="M400 286 V400"/>
+<path d="M605 206 V400"/>
+</g>
+</svg>

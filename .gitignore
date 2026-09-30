@@ -1,0 +1,12 @@
+# Secrets and private material - never commit
+.env
+*.env
+.ssh/
+*.key
+*.pem
+*.secret
+# Runtime data
+openwebui_data/
+*.log
+__pycache__/
+.DS_Store
