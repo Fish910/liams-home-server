@@ -31,7 +31,6 @@ A retired Acer gaming laptop and a Raspberry Pi 4, running a fully local, subscr
 
 The ceiling fan's remote is a 315 MHz RF device. An Arduino Uno with a CC1101 transceiver module, connected by USB to the Raspberry Pi, transmits the matching protocol. The Pi runs a small Flask API that sends commands to the Arduino over serial, and Home Assistant calls that API. A "cycle lights" script uses a timed loop with an adjustable duration.
 
-![Arduino Uno with CC1101 RF module](images/arduino-cc1101-rf.jpg)
 ![Pi and Arduino wall-mounted](images/pi-arduino-wall-mount.jpg)
 
 ### IR transmitter (LED strips)
