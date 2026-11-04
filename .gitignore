@@ -5,6 +5,8 @@
 *.key
 *.pem
 *.secret
+*token*
+ntfy-topic
 # Runtime data
 openwebui_data/
 *.log
