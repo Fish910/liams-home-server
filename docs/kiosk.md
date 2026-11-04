@@ -18,6 +18,10 @@ The laptop's own screen shows the dashboard with no desktop environment.
 
 `scripts/kiosk-refresh` kills the kiosk Chromium; the loop script relaunches it. This is more reliable than sending keystrokes with `xdotool`, which often missed the window.
 
+## No scrollbar
+
+In full-screen Chromium the page was a few pixels taller than the screen, which showed a scrollbar. `custom.css` hides it (`overflow: hidden` plus hiding the WebKit scrollbar). The kiosk never needs to scroll.
+
 ## No periodic reload
 
 An old cron job (`xdotool key F5` every 15 minutes) and a `location.reload()` in `custom.js` both reloaded the page, which flashed the screen white and reset the hardware graphs. Both were removed. Homepage widgets already poll on their own.

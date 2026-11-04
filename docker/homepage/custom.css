@@ -27,3 +27,7 @@ body::before {
 .services-list { flex: 1 1 auto; display: flex; flex-direction: column; }
 .services-list > li.service { flex: 1 1 auto; display: flex; }
 .services-list > li.service > div { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; }
+
+/* kiosk: no scrollbar (page is a fixed display, nothing needs scrolling) */
+html, body { overflow: hidden !important; scrollbar-width: none !important; }
+html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
