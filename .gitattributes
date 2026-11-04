@@ -1,0 +1,5 @@
+*.sh text eol=lf
+scripts/docker-autoupdate text eol=lf
+scripts/kiosk-refresh text eol=lf
+scripts/palette-theme text eol=lf
+*.py text eol=lf
