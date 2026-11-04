@@ -2,7 +2,7 @@
 
 A retired Acer gaming laptop and a Raspberry Pi 4, running a fully local, subscription-free smart home: Home Assistant controlling RF, IR, and Bluetooth devices, a voice assistant on a rooted Echo Dot, a local LLM on the laptop's GPU, network storage, and a custom-built ESP32 music control panel.
 
-![Kiosk dashboard running on the server's own screen](images/kiosk-dashboard.jpg)
+![Kiosk dashboard running on the server's own screen](images/kiosk-dashboard-themed.jpg)
 
 ## Highlights
 
@@ -95,12 +95,15 @@ The pattern that ties it together: **each hardware capability is a small Flask H
 | Open WebUI | Docker | Chat UI with custom sandboxed file and image tools |
 | Wyoming Whisper / Piper | Docker | Speech to text / text to speech |
 | Music Assistant | Docker | Music library and Snapcast streaming |
-| Homepage + Glances | Docker / host | Dashboard shown in kiosk mode on the laptop screen |
+| Homepage + Glances | Docker / host | Dashboard shown in kiosk mode on the laptop screen, with a live service-status panel |
 | Vaultwarden | Docker | Password manager, weekly automated backups |
 | Samba, Tailscale | Host | File sharing and remote access |
 
 ## Design decisions
 
+- **Reboots are guarded.** A weekly reboot first verifies the new kernel has its NVIDIA module, because a kernel without it silently took the GPU stack down once.
+- **Updates are tiered.** Low-risk containers update themselves with a health check and rollback; Home Assistant, Music Assistant and Ollama only get reported.
+- **Presentation is separable.** The dashboard theme is a pair of marked blocks that one command adds or removes, with backups, so the layout can always be restored.
 - **Samba and Tailscale run on the host, not in containers.** Both need direct access to the host network stack and filesystem.
 - **AI tools are sandboxed.** The model can read the share but write only inside a `sandbox/` folder, with path-traversal protection. `docker.sock` is never mounted into an AI-accessible container, and SSH keys are excluded from read scopes.
 - **Fully local.** Ollama is never exposed publicly; remote access is Tailscale only.
@@ -111,19 +114,21 @@ The pattern that ties it together: **each hardware capability is a small Flask H
 - [Home Assistant integrations in detail](docs/home-assistant.md)
 - [Hardware and storage](docs/hardware.md): including the LVM fix that recovered 130 GB
 - [Networking](docs/networking.md)
-- [Kiosk display](docs/kiosk.md)
+- [Kiosk display](docs/kiosk.md): status panel, equal-height layout, colour theme
+- [Maintenance](docs/maintenance.md): safe weekly reboot and tiered container auto-updates
 - [Local AI stack](docs/ai-setup.md)
-- [Troubleshooting: the tool-calling bug hunt](docs/troubleshooting.md)
+- [Troubleshooting](docs/troubleshooting.md): the tool-calling bug hunt, the post-reboot GPU failure, ALSA card numbering, and more
 
 ## Repo layout
 
 ```
-docker/            compose files for each service
+docker/            compose files and configs for each service (Homepage config and theme, status APIs)
 homeassistant/     config snippets, dashboard, automations
 pi/                Flask bridge APIs and Arduino sketch
 esp32-panel/       firmware and enclosure files for the music panel
 openwebui-tools/   custom Python tools for Open WebUI
-scripts/           helper scripts
+scripts/           helper scripts (safe reboot, container auto-update, kiosk refresh, theme installer)
+systemd/           unit and timer files for the scripts above
 docs/              detailed write-ups
 images/            photos and diagrams
 ```
@@ -133,6 +138,7 @@ images/            photos and diagrams
 - [ ] ESPHome Bluetooth proxy to stabilize the BLE LED strip
 - [ ] Vision model (moondream) for image understanding
 - [ ] Self-hosted calendar (CalDAV) integrated with Home Assistant
+- [x] Weekly container auto-updates with health checks and rollback
 - [ ] Automated config backups
 
 ## Notes

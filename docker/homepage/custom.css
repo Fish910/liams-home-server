@@ -1,0 +1,29 @@
+div[class="absolute bottom-3 left-3 z-20 text-sm pointer-events-none"] {
+  bottom: 1.5rem !important;
+}
+
+div [class="absolute bottom-3 right-3 z-20 text-sm pointer-events-none"] {
+   bottom: 1.5rem !important;
+}
+
+body::before {
+  content: "Liam's Server";
+  position: absolute;
+  top: 1.6rem;
+  left: 50%;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+}
+
+.service-container {
+  margin-top: 1rem;
+}
+
+/* equal-height columns (the JS in custom.js enforces this too: see docs/kiosk.md) */
+#services { align-items: stretch !important; }
+.services-group { display: flex; flex-direction: column; }
+.services-group div:has(> .services-list) { flex: 1 1 auto; display: flex !important; flex-direction: column; }
+.services-list { flex: 1 1 auto; display: flex; flex-direction: column; }
+.services-list > li.service { flex: 1 1 auto; display: flex; }
+.services-list > li.service > div { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; }

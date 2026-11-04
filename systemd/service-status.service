@@ -1,0 +1,12 @@
+[Unit]
+Description=Service status API for Homepage
+After=network-online.target docker.service tailscaled.service
+
+[Service]
+User=USER
+ExecStart=/usr/bin/python3 /home/USER/docker/service-status/status.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

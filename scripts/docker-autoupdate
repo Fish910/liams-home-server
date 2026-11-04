@@ -1,0 +1,72 @@
+#!/bin/bash
+# Default: report only. --apply updates the AUTO tier.
+BASE=/home/USER/docker
+STATE=$BASE/autoupdate
+AUTO=(homepage vaultwarden wyoming-piper wyoming-whisper)
+CHECK=(homeassistant music-assistant ollama openwebui)
+MODE=check; [ "$1" = "--apply" ] && MODE=apply
+mkdir -p "$STATE"; LOG=$STATE/autoupdate.log; : > "$STATE/pending"
+log() { echo "$(date '+%F %T') $*" | tee -a "$LOG"; }
+
+docker buildx version >/dev/null 2>&1 || { log "docker-buildx-plugin missing - install it to check remote digests"; exit 1; }
+
+stack_images() { (cd "$BASE/$1" && docker compose config --images 2>/dev/null); }
+
+has_update() {  # 0 = update available, 1 = current, 2 = could not check
+  local remote
+  remote=$(docker buildx imagetools inspect "$1" 2>/dev/null | awk '/^Digest:/{print $2; exit}')
+  [ -z "$remote" ] && return 2
+  docker image inspect "$1" --format '{{join .RepoDigests " "}}' 2>/dev/null | grep -q "$remote" && return 1
+  return 0
+}
+
+healthy() {  # wait up to 120s for every container in the stack
+  local id st ok deadline=$((SECONDS+120))
+  while [ $SECONDS -lt $deadline ]; do
+    ok=1
+    for id in $(cd "$BASE/$1" && docker compose ps -q); do
+      st=$(docker inspect -f '{{.State.Status}} {{if .State.Health}}{{.State.Health.Status}}{{end}}' "$id")
+      case "$st" in "running healthy"|"running ") ;; *) ok=0;; esac
+    done
+    [ $ok = 1 ] && return 0
+    sleep 5
+  done
+  return 1
+}
+
+update_stack() {
+  local s=$1 img; declare -A OLD
+  cd "$BASE/$s" || return 1
+  for img in $(stack_images "$s"); do OLD[$img]=$(docker image inspect "$img" --format '{{.Id}}'); done
+  log "[$s] pulling new images"
+  docker compose pull -q >>"$LOG" 2>&1 || { log "[$s] pull failed, nothing changed"; return 1; }
+  docker compose up -d >>"$LOG" 2>&1
+  healthy "$s" && { log "[$s] updated, healthy"; return 0; }
+  log "[$s] UNHEALTHY after update, rolling back"
+  for img in "${!OLD[@]}"; do docker tag "${OLD[$img]}" "$img"; done
+  docker compose up -d --force-recreate >>"$LOG" 2>&1
+  healthy "$s" && log "[$s] rolled back OK" || log "[$s] ROLLBACK ALSO UNHEALTHY - needs attention"
+  return 1
+}
+
+for s in "${AUTO[@]}" "${CHECK[@]}"; do
+  tier=check; [[ " ${AUTO[*]} " == *" $s "* ]] && tier=auto
+  pend=0
+  for img in $(stack_images "$s"); do
+    has_update "$img"; rc=$?
+    case $rc in 0) pend=1;; 2) log "[$s] could not check $img";; esac
+  done
+  if [ $pend = 1 ]; then
+    echo "$s" >> "$STATE/pending"
+    if [ $tier = auto ] && [ $MODE = apply ]; then
+      update_stack "$s" && sed -i "/^$s\$/d" "$STATE/pending"
+    else
+      log "[$s] update available ($tier tier)"
+    fi
+  else
+    log "[$s] up to date"
+  fi
+done
+[ $MODE = apply ] && docker image prune -f >>"$LOG" 2>&1
+log "local builds (rebuild manually): echomuse-controller, oww-forge-ui"
+log "pending: $(tr '\n' ' ' < "$STATE/pending")"

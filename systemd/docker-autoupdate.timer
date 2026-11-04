@@ -1,0 +1,9 @@
+[Unit]
+Description=Weekly Docker update window (before the 04:00 reboot)
+
+[Timer]
+OnCalendar=Sun 03:30
+Persistent=false
+
+[Install]
+WantedBy=timers.target

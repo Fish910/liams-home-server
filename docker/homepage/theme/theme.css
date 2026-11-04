@@ -1,0 +1,136 @@
+/* Palette (swap any hex here, then run: palette-theme on) */
+:root {
+  --p-ink: #000F08;
+  --p-mauve: #725A7A;
+  --p-ice: #E0F7FA;
+  --p-blush: #EFC3CA;
+  --p-coral: #FF5E55;
+}
+
+/* page: deep green-black with soft mauve and coral glows */
+html, body {
+  background:
+    radial-gradient(1100px 650px at 10% -8%, color-mix(in srgb, var(--p-mauve) 34%, transparent), transparent 62%),
+    radial-gradient(900px 600px at 105% 108%, color-mix(in srgb, var(--p-coral) 14%, transparent), transparent 58%),
+    var(--p-ink) !important;
+  background-attachment: fixed !important;
+  color: var(--p-ice);
+}
+#page_wrapper, #background, #__next > div { background: transparent !important; }
+
+/* title */
+body::before {
+  background-image: linear-gradient(90deg, var(--p-blush), var(--p-coral));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: .04em;
+  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--p-coral) 40%, transparent));
+}
+
+/* group headings */
+.service-group-name {
+  color: var(--p-blush) !important;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+}
+.service-group-name::before {
+  content: "";
+  display: inline-block;
+  align-self: center;
+  width: 4px;
+  height: 1.1em;
+  margin-right: .65rem;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--p-coral), var(--p-mauve));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--p-coral) 55%, transparent);
+}
+
+/* cards */
+.services-list > li.service > div {
+  background: linear-gradient(150deg,
+    color-mix(in srgb, var(--p-mauve) 26%, transparent),
+    color-mix(in srgb, var(--p-ink) 55%, transparent)) !important;
+  border: 1px solid color-mix(in srgb, var(--p-blush) 16%, transparent) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .45),
+    inset 0 1px 0 color-mix(in srgb, var(--p-ice) 7%, transparent) !important;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+.services-list > li.service:hover > div {
+  border-color: color-mix(in srgb, var(--p-coral) 55%, transparent) !important;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, .5),
+    0 0 18px color-mix(in srgb, var(--p-coral) 22%, transparent) !important;
+}
+.service-name { color: var(--p-ice) !important; }
+.service-description { color: color-mix(in srgb, var(--p-blush) 78%, transparent) !important; }
+
+/* stat blocks */
+.service-block {
+  background: color-mix(in srgb, var(--p-ink) 62%, transparent) !important;
+  border: 1px solid color-mix(in srgb, var(--p-mauve) 45%, transparent);
+  border-radius: 9px !important;
+}
+.service-block > div:first-child { color: var(--p-ice) !important; }
+.service-block > div:last-child { color: var(--p-blush) !important; letter-spacing: .06em; }
+
+/* status colouring (set by the script in custom.js) */
+.service-block[data-pal="ok"] { border-color: color-mix(in srgb, var(--p-ice) 38%, transparent); }
+.service-block[data-pal="ok"] > div:first-child {
+  text-shadow: 0 0 10px color-mix(in srgb, var(--p-ice) 45%, transparent);
+}
+.service-block[data-pal="warn"] { border-color: color-mix(in srgb, var(--p-blush) 70%, transparent); }
+.service-block[data-pal="warn"] > div:first-child { color: var(--p-blush) !important; }
+.service-block[data-pal="bad"] {
+  border-color: var(--p-coral);
+  background: color-mix(in srgb, var(--p-coral) 22%, var(--p-ink)) !important;
+}
+.service-block[data-pal="bad"] > div:first-child {
+  color: var(--p-coral) !important;
+  font-weight: 700;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--p-coral) 60%, transparent);
+}
+
+/* v2: background colours (change these two to re-tint) */
+:root { --p-bg1: #2a1630; --p-bg2: #05100c; }
+html, body { background: var(--p-bg2) !important; }
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(1000px 700px at 8% -5%, color-mix(in srgb, var(--p-mauve) 45%, transparent), transparent 62%),
+    radial-gradient(900px 650px at 100% 105%, color-mix(in srgb, var(--p-coral) 20%, transparent), transparent 60%),
+    linear-gradient(160deg, var(--p-bg1), var(--p-bg2) 70%);
+}
+#background { display: none !important; }
+#page_wrapper, #inner_wrapper, #__next, #__next > div { background: transparent !important; }
+
+/* v2: header above the status tiles (they sit inside the Quick Links column) */
+.services-group:last-child .services-list > li.service:nth-child(5) {
+  flex-direction: column !important;
+  margin-top: 1.1rem;
+}
+.services-group:last-child .services-list > li.service:nth-child(5)::before {
+  content: "Status";
+  display: block; flex: 0 0 auto;
+  padding: 0 0 .7rem calc(4px + .65rem);
+  color: var(--p-blush);
+  text-transform: uppercase; letter-spacing: .14em;
+  font-size: 1rem; font-weight: 700; line-height: 1.2;
+  background: linear-gradient(180deg, var(--p-coral), var(--p-mauve)) no-repeat left .1em / 4px 1.1em;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--p-coral) 40%, transparent));
+}
+
+/* v3: no-green background + header placed above the Server Services tile */
+:root { --p-ink: #0b0612; --p-bg1: #4a2a56; --p-bg2: #120918; }
+.services-group:last-child .services-list > li.service:nth-child(5) {
+  position: relative !important;
+  padding-top: 2.3rem !important;
+  margin-top: .6rem;
+}
+.services-group:last-child .services-list > li.service:nth-child(5)::before {
+  position: absolute !important;
+  top: 0; left: 0;
+  padding: 0 0 0 calc(4px + .65rem);
+}
