@@ -1,0 +1,9 @@
+[Unit]
+Description=Weekly server digest (Sunday after the reboot)
+
+[Timer]
+OnCalendar=Sun 09:15
+Persistent=false
+
+[Install]
+WantedBy=timers.target

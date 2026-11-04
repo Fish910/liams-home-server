@@ -1,0 +1,17 @@
+# Runs on the PI: watches the server's tiles and whether the server answers at all.
+# Install as /etc/systemd/system/status-alert.service on the Pi.
+[Unit]
+Description=Alert on server service problems
+After=network-online.target
+
+[Service]
+User=USER
+Environment=ALERT_URLS=http://SERVER_LAN_IP:5099/status,http://SERVER_TAILSCALE_IP:5099/status
+Environment=ALERT_PREFIXES=server_,containers_
+Environment=ALERT_REACH_NAME=liams-server
+ExecStart=/usr/bin/python3 /home/USER/scripts/status-alert.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,15 @@
+# Runs on the SERVER: watches the Raspberry Pi's tiles.
+[Unit]
+Description=Alert on Raspberry Pi service problems
+After=network-online.target service-status.service
+
+[Service]
+User=USER
+Environment=ALERT_URLS=http://127.0.0.1:5099/status
+Environment=ALERT_PREFIXES=pi_
+ExecStart=/usr/bin/python3 /home/USER/scripts/status-alert.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

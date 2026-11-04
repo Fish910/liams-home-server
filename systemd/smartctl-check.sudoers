@@ -1,0 +1,4 @@
+# Install as /etc/sudoers.d/smartctl-check (chmod 440, validate with: visudo -cf <file>)
+# Lets the drive-check script read the drive's SMART health status without a password,
+# and nothing else.
+USER ALL=(root) NOPASSWD: /usr/sbin/smartctl -H -d scsi /dev/sd[a-z]

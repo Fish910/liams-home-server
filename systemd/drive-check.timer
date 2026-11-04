@@ -1,0 +1,9 @@
+[Unit]
+Description=Daily storage drive check
+
+[Timer]
+OnCalendar=*-*-* 08:20
+Persistent=false
+
+[Install]
+WantedBy=timers.target

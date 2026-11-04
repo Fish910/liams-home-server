@@ -103,6 +103,7 @@ The pattern that ties it together: **each hardware capability is a small Flask H
 
 - **Reboots are guarded.** A weekly reboot first verifies the new kernel has its NVIDIA module, because a kernel without it silently took the GPU stack down once.
 - **Updates are tiered.** Low-risk containers update themselves with a health check and rollback; Home Assistant, Music Assistant and Ollama only get reported.
+- **Unattended means self-reporting.** The server and the Pi watch each other and push phone alerts, so an outage reaches me even when I'm not at home.
 - **Presentation is separable.** The dashboard theme is a pair of marked blocks that one command adds or removes, with backups, so the layout can always be restored.
 - **Samba and Tailscale run on the host, not in containers.** Both need direct access to the host network stack and filesystem.
 - **AI tools are sandboxed.** The model can read the share but write only inside a `sandbox/` folder, with path-traversal protection. `docker.sock` is never mounted into an AI-accessible container, and SSH keys are excluded from read scopes.
@@ -116,6 +117,7 @@ The pattern that ties it together: **each hardware capability is a small Flask H
 - [Networking](docs/networking.md)
 - [Kiosk display](docs/kiosk.md): status panel, equal-height layout, colour theme
 - [Maintenance](docs/maintenance.md): safe weekly reboot and tiered container auto-updates
+- [Phone alerts](docs/alerts.md): ntfy notifications when services go down, updates are pending, or the drive misbehaves
 - [Local AI stack](docs/ai-setup.md)
 - [Troubleshooting](docs/troubleshooting.md): the tool-calling bug hunt, the post-reboot GPU failure, ALSA card numbering, and more
 
@@ -127,7 +129,7 @@ homeassistant/     config snippets, dashboard, automations
 pi/                Flask bridge APIs and Arduino sketch
 esp32-panel/       firmware and enclosure files for the music panel
 openwebui-tools/   custom Python tools for Open WebUI
-scripts/           helper scripts (safe reboot, container auto-update, kiosk refresh, theme installer)
+scripts/           helper scripts (safe reboot, container auto-update, kiosk refresh, theme installer, alert watchers)
 systemd/           unit and timer files for the scripts above
 docs/              detailed write-ups
 images/            photos and diagrams
@@ -139,6 +141,7 @@ images/            photos and diagrams
 - [ ] Vision model (moondream) for image understanding
 - [ ] Self-hosted calendar (CalDAV) integrated with Home Assistant
 - [x] Weekly container auto-updates with health checks and rollback
+- [x] Phone alerts for outages, pending updates, and drive health
 - [ ] Automated config backups
 
 ## Notes

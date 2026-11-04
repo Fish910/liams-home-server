@@ -29,3 +29,5 @@ Home Assistant, Music Assistant and Ollama are check-only because automations an
 ## Power
 
 `rtcwake` works on this hardware. Waking from full power-off likely needs AC power. The `sleepnow` command shuts down immediately and schedules a 09:00 wake the next day.
+
+Alerts for failed updates, pending updates, and drive health are covered in [alerts.md](alerts.md).

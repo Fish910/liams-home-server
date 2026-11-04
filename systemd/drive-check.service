@@ -1,0 +1,7 @@
+[Unit]
+Description=Daily storage drive check
+
+[Service]
+Type=oneshot
+User=USER
+ExecStart=/home/USER/scripts/drive-check.sh

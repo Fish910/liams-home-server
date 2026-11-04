@@ -1,0 +1,7 @@
+[Unit]
+Description=Weekly server digest to phone
+
+[Service]
+Type=oneshot
+User=USER
+ExecStart=/home/USER/scripts/pending-digest.sh
